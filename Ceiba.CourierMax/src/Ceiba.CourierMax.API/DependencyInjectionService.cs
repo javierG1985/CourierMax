@@ -1,6 +1,5 @@
 using Ceiba.CourierMax.API.Services;
 using Ceiba.CourierMax.API.Services.Interfaces;
-using Ceiba.CourierMax.Application.Features;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -68,7 +67,7 @@ public static class DependencyInjectionService
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage);
                 var message = string.Join("; ", errors);
-                var response = ReponseApiService.Response(StatusCodes.Status400BadRequest, message);
+                var response = ResponseApiService.Response(StatusCodes.Status400BadRequest, message);
                 return new ObjectResult(response) { StatusCode = StatusCodes.Status400BadRequest };
             };
         });

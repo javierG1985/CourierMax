@@ -1,6 +1,5 @@
-using Ceiba.CourierMax.Application.Features;
 using Ceiba.CourierMax.Application.Interfaces;
-using Ceiba.CourierMax.Domain.Models;
+using Ceiba.CourierMax.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +20,11 @@ public class ReportsController() : ControllerBase
         CancellationToken ct)
     {
         if (from > to)
-            return StatusCode(StatusCodes.Status400BadRequest, ReponseApiService.Response(
+            return StatusCode(StatusCodes.Status400BadRequest, ResponseApiService.Response(
                 StatusCodes.Status400BadRequest, "La fecha 'Inicial' debe ser menor a 'Final'."));
 
         var result = await getDelayedShipments.ExecuteAsync(from, to, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envíos atrasados obtenidos.", result));
     }
 }

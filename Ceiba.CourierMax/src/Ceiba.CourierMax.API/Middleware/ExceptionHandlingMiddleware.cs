@@ -1,5 +1,4 @@
 using Ceiba.CourierMax.Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace Ceiba.CourierMax.API.Middleware;
@@ -17,36 +16,27 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         catch (DomainException ex)
         {
             logger.LogWarning("Regla de negocio violada: {Message}", ex.Message);
-            await WriteProblemAsync(context, StatusCodes.Status422UnprocessableEntity,
-                "Regla de negocio", ex.Message);
+            await WriteResponseAsync(context, StatusCodes.Status422UnprocessableEntity, ex.Message);
         }
         catch (KeyNotFoundException ex)
         {
             logger.LogWarning("Recurso no encontrado: {Message}", ex.Message);
-            await WriteProblemAsync(context, StatusCodes.Status404NotFound,
-                "No encontrado", ex.Message);
+            await WriteResponseAsync(context, StatusCodes.Status404NotFound, ex.Message);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error inesperado");
-            await WriteProblemAsync(context, StatusCodes.Status500InternalServerError,
-                "Error interno", "Ocurrió un error inesperado. Intente más tarde.");
+            await WriteResponseAsync(context, StatusCodes.Status500InternalServerError,
+                "Ocurrió un error inesperado. Intente más tarde.");
         }
     }
 
-    private static async Task WriteProblemAsync(HttpContext context, int statusCode, string title, string detail)
+    private static async Task WriteResponseAsync(HttpContext context, int statusCode, string message)
     {
         context.Response.StatusCode = statusCode;
-        context.Response.ContentType = "application/problem+json";
+        context.Response.ContentType = "application/json";
 
-        var problem = new ProblemDetails
-        {
-            Status = statusCode,
-            Title = title,
-            Detail = detail,
-            Instance = context.Request.Path
-        };
-
-        await context.Response.WriteAsync(JsonSerializer.Serialize(problem, JsonOptions));
+        var response = ResponseApiService.Response(statusCode, message);
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response, JsonOptions));
     }
 }

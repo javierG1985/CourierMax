@@ -1,8 +1,7 @@
 using Ceiba.CourierMax.API.Services.Interfaces;
 using Ceiba.CourierMax.Application.DTOs.Requests;
-using Ceiba.CourierMax.Application.Features;
 using Ceiba.CourierMax.Application.Interfaces;
-using Ceiba.CourierMax.Domain.Models;
+using Ceiba.CourierMax.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,13 +24,13 @@ public class AuthController() : ControllerBase
         var result = await loginUseCase.ExecuteAsync(request, ct);
         if(result == null)
         {
-            return StatusCode(StatusCodes.Status422UnprocessableEntity, ReponseApiService.Response(
+            return StatusCode(StatusCodes.Status422UnprocessableEntity, ResponseApiService.Response(
                 StatusCodes.Status422UnprocessableEntity, "Credenciales inválidas"));
         }
 
         jwtTokenService.IssueToken(result.Username, result.Role);
 
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
                 StatusCodes.Status200OK, "Login exitoso", result));
     }
 
@@ -43,6 +42,6 @@ public class AuthController() : ControllerBase
     {
         jwtTokenService.RevokeToken();
 
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(StatusCodes.Status200OK,"Sesión cerrada."));
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(StatusCodes.Status200OK,"Sesión cerrada."));
     }
 }

@@ -1,6 +1,5 @@
-using Ceiba.CourierMax.Application.Features;
 using Ceiba.CourierMax.Application.Interfaces;
-using Ceiba.CourierMax.Domain.Models;
+using Ceiba.CourierMax.Application.Models;
 using Ceiba.CourierMax.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +32,7 @@ public class DriversController() : ControllerBase
                 d.Vehicle.MaxVolumeM3
             }
         });
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Conductores obtenidos exitosamente.", result));
     }
 
@@ -46,7 +45,7 @@ public class DriversController() : ControllerBase
         CancellationToken ct)
     {
         var result = await getDriverMetrics.ExecuteForDriverAsync(id, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Métricas del conductor obtenidas.", result));
     }
 
@@ -57,7 +56,7 @@ public class DriversController() : ControllerBase
         CancellationToken ct)
     {
         var result = await getDriverMetrics.ExecuteAsync(ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Métricas de todos los conductores obtenidas.", result));
     }
 }

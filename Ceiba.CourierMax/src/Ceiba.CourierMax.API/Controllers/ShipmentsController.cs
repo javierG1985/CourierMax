@@ -1,7 +1,6 @@
 using Ceiba.CourierMax.Application.DTOs.Requests;
-using Ceiba.CourierMax.Application.Features;
 using Ceiba.CourierMax.Application.Interfaces;
-using Ceiba.CourierMax.Domain.Models;
+using Ceiba.CourierMax.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +19,7 @@ public class ShipmentsController() : ControllerBase
         CancellationToken ct)
     {
         var result = await createShipment.ExecuteAsync(request, ct);
-        return StatusCode(StatusCodes.Status201Created, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status201Created, ResponseApiService.Response(
             StatusCodes.Status201Created, "Envío creado exitosamente.", result));
     }
 
@@ -31,7 +30,7 @@ public class ShipmentsController() : ControllerBase
         CancellationToken ct)
     {
         var result = await getShipment.GetAllAsync(ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envíos obtenidos exitosamente.", result));
     }
 
@@ -44,7 +43,7 @@ public class ShipmentsController() : ControllerBase
         CancellationToken ct)
     {
         var result = await getShipment.GetByIdAsync(id, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío obtenido exitosamente.", result));
     }
 
@@ -57,7 +56,7 @@ public class ShipmentsController() : ControllerBase
         CancellationToken ct)
     {
         var result = await getShipment.GetByTrackingCodeAsync(code, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío encontrado.", result));
     }
 
@@ -72,7 +71,7 @@ public class ShipmentsController() : ControllerBase
     {
         var resolvedRequest = request with { ShipmentId = id };
         var result = await assignShipment.ExecuteAsync(resolvedRequest, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío asignado al conductor.", result));
     }
 
@@ -87,7 +86,7 @@ public class ShipmentsController() : ControllerBase
     {
         var resolvedRequest = request with { ShipmentId = id };
         var result = await changeStatus.StartTransitAsync(resolvedRequest, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío marcado en tránsito.", result));
     }
 
@@ -102,7 +101,7 @@ public class ShipmentsController() : ControllerBase
     {
         var resolvedRequest = request with { ShipmentId = id };
         var result = await changeStatus.DeliverAsync(resolvedRequest, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío marcado como entregado.", result));
     }
 
@@ -117,7 +116,7 @@ public class ShipmentsController() : ControllerBase
     {
         var resolvedRequest = request with { ShipmentId = id };
         var result = await cancelShipment.ExecuteAsync(resolvedRequest, ct);
-        return StatusCode(StatusCodes.Status200OK, ReponseApiService.Response(
+        return StatusCode(StatusCodes.Status200OK, ResponseApiService.Response(
             StatusCodes.Status200OK, "Envío cancelado.", result));
     }
 }
