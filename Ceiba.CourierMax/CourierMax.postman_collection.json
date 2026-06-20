@@ -1,0 +1,360 @@
+{
+  "info": {
+    "name": "CourierMax API",
+    "description": "Colección completa de endpoints para la API de gestión de envíos CourierMax.\n\nAntes de usar:\n1. Ejecutar la API: `dotnet run --project src/Ceiba.CourierMax.API`\n2. El servidor arranca en http://localhost:5262\n3. Los IDs de conductores pre-cargados están en las variables de colección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5262", "type": "string" },
+    { "key": "shipmentId", "value": "", "type": "string" },
+    { "key": "trackingCode", "value": "", "type": "string" },
+    { "key": "driverJuanId", "value": "22222222-0000-0000-0000-000000000001", "type": "string" },
+    { "key": "driverMariaId", "value": "22222222-0000-0000-0000-000000000002", "type": "string" },
+    { "key": "driverCarlosId", "value": "22222222-0000-0000-0000-000000000003", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Envíos",
+      "item": [
+        {
+          "name": "Crear envío (Frágil Express Bogotá→Medellín = $40,950)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('shipmentId', body.id);",
+                  "pm.collectionVariables.set('trackingCode', body.trackingCode);",
+                  "pm.test('Tracking code format', () => pm.expect(body.trackingCode).to.match(/^CM\\d{8}$/));",
+                  "pm.test('Fare = 40950', () => pm.expect(body.fare).to.eql(40950));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderName\": \"Carlos Martínez\",\n  \"senderPhone\": \"3001234567\",\n  \"senderAddress\": \"Calle 72 #10-34, Bogotá\",\n  \"recipientName\": \"Laura Gómez\",\n  \"recipientPhone\": \"3159876543\",\n  \"recipientAddress\": \"Carrera 43A #5A-113, Medellín\",\n  \"weightKg\": 5,\n  \"lengthCm\": 30,\n  \"widthCm\": 20,\n  \"heightCm\": 15,\n  \"packageType\": \"Fragil\",\n  \"serviceType\": \"Express\",\n  \"originCity\": \"Bogota\",\n  \"destinationCity\": \"Medellin\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments"
+          }
+        },
+        {
+          "name": "Crear envío (Estándar Bogotá→Cali)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderName\": \"Ana Torres\",\n  \"senderPhone\": \"3112345678\",\n  \"senderAddress\": \"Av. El Dorado #68C-61, Bogotá\",\n  \"recipientName\": \"Pedro Salcedo\",\n  \"recipientPhone\": \"3209876543\",\n  \"recipientAddress\": \"Calle 5 #6-62, Cali\",\n  \"weightKg\": 2,\n  \"lengthCm\": 20,\n  \"widthCm\": 15,\n  \"heightCm\": 10,\n  \"packageType\": \"Documento\",\n  \"serviceType\": \"Estandar\",\n  \"originCity\": \"Bogota\",\n  \"destinationCity\": \"Cali\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments"
+          }
+        },
+        {
+          "name": "Crear envío (Mismo Día Perecedero Medellín→Barranquilla)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderName\": \"Sofia Castro\",\n  \"senderPhone\": \"3301112233\",\n  \"senderAddress\": \"Cra 70 #45-12, Medellín\",\n  \"recipientName\": \"Mario Díaz\",\n  \"recipientPhone\": \"3504445566\",\n  \"recipientAddress\": \"Calle 72 #57-60, Barranquilla\",\n  \"weightKg\": 8,\n  \"lengthCm\": 40,\n  \"widthCm\": 30,\n  \"heightCm\": 20,\n  \"packageType\": \"Perecedero\",\n  \"serviceType\": \"MismoDia\",\n  \"originCity\": \"Medellin\",\n  \"destinationCity\": \"Barranquilla\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments"
+          }
+        },
+        {
+          "name": "Listar todos los envíos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/shipments"
+          }
+        },
+        {
+          "name": "Obtener envío por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}"
+          }
+        },
+        {
+          "name": "Rastrear por código de seguimiento",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/shipments/tracking/{{trackingCode}}"
+          }
+        },
+        {
+          "name": "Asignar a conductor (Juan Pérez)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Estado ASIGNADO', () => pm.expect(body.status).to.eql('ASIGNADO'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driverId\": \"{{driverJuanId}}\",\n  \"assignedBy\": \"operador1\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}/assign"
+          }
+        },
+        {
+          "name": "Marcar en tránsito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Estado EN_TRANSITO', () => pm.expect(body.status).to.eql('EN_TRANSITO'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"changedBy\": \"conductor1\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}/transit"
+          }
+        },
+        {
+          "name": "Marcar como entregado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Estado ENTREGADO', () => pm.expect(body.status).to.eql('ENTREGADO'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"changedBy\": \"conductor1\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}/deliver"
+          }
+        },
+        {
+          "name": "Cancelar envío",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 o 422', () => {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Cliente solicitó cancelación por cambio de dirección\",\n  \"cancelledBy\": \"operador1\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}/cancel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conductores",
+      "item": [
+        {
+          "name": "Listar todos los conductores",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('3 conductores pre-cargados', () => pm.expect(body.length).to.eql(3));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/drivers"
+          }
+        },
+        {
+          "name": "Métricas de todos los conductores",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Array de métricas', () => pm.expect(body).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/drivers/metrics"
+          }
+        },
+        {
+          "name": "Métricas de conductor Juan Pérez",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/drivers/{{driverJuanId}}/metrics"
+          }
+        },
+        {
+          "name": "Métricas de conductor María López",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/drivers/{{driverMariaId}}/metrics"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "item": [
+        {
+          "name": "Envíos atrasados (año 2026)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/delayed?from=2026-01-01&to=2026-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "delayed"],
+              "query": [
+                { "key": "from", "value": "2026-01-01" },
+                { "key": "to", "value": "2026-12-31" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Envíos atrasados (primer semestre 2026)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/delayed?from=2026-01-01&to=2026-06-30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "delayed"],
+              "query": [
+                { "key": "from", "value": "2026-01-01" },
+                { "key": "to", "value": "2026-06-30" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Errores esperados (422)",
+      "item": [
+        {
+          "name": "Cancelar envío ya ENTREGADO → 422",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 422 Unprocessable Entity', () => pm.response.to.have.status(422));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Intento de cancelación tras entrega\",\n  \"cancelledBy\": \"operador1\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments/{{shipmentId}}/cancel",
+            "description": "Primero ejecutar el flujo completo (crear → asignar → tránsito → entregar), luego este request devolverá 422."
+          }
+        },
+        {
+          "name": "Teléfono inválido → 422",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 422', () => pm.response.to.have.status(422));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderName\": \"Test\",\n  \"senderPhone\": \"123\",\n  \"senderAddress\": \"Calle 1\",\n  \"recipientName\": \"Test2\",\n  \"recipientPhone\": \"3001234567\",\n  \"recipientAddress\": \"Calle 2\",\n  \"weightKg\": 1,\n  \"lengthCm\": 10,\n  \"widthCm\": 10,\n  \"heightCm\": 10,\n  \"packageType\": \"Paquete\",\n  \"serviceType\": \"Estandar\",\n  \"originCity\": \"Bogota\",\n  \"destinationCity\": \"Cali\"\n}"
+            },
+            "url": "{{baseUrl}}/api/shipments",
+            "description": "El teléfono '123' no cumple el formato colombiano (10 dígitos, inicia con 3 o 6)."
+          }
+        },
+        {
+          "name": "Envío no encontrado → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/shipments/00000000-0000-0000-0000-000000000000"
+          }
+        }
+      ]
+    }
+  ]
+}

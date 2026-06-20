@@ -1,0 +1,6 @@
+@Ceiba.CourierMax.API_HostAddress = http://localhost:5262
+
+GET {{Ceiba.CourierMax.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

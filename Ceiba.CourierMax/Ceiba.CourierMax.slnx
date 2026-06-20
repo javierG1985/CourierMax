@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/API/">
+    <Project Path="src/Ceiba.CourierMax.API/Ceiba.CourierMax.API.csproj" />
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="src/Ceiba.CourierMax.Application/Ceiba.CourierMax.Application.csproj" />
+    <Project Path="src/Ceiba.CourierMax.Domain/Ceiba.CourierMax.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="src/Ceiba.CourierMax.External/Ceiba.CourierMax.External.csproj" />
+    <Project Path="src/Ceiba.CourierMax.Persistence/Ceiba.CourierMax.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Ceiba.CourierMax.Tests/Ceiba.CourierMax.Tests.csproj" />
+  </Folder>
+</Solution>
