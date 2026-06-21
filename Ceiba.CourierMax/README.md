@@ -145,7 +145,7 @@ builder.Services
 
 | Decisión | Elección | Justificación |
 |---|---|---|
-| **Persistencia** | SQLite + EF Core 9 | Sin infraestructura externa; datos persisten entre reinicios |
+| **Persistencia** | SQLite + EF Core 10 | Sin infraestructura externa; datos persisten entre reinicios |
 | **Patrón de casos de uso** | Use Cases por funcionalidad (sin MediatR) | Cada caso de uso es una clase con una responsabilidad; claridad sin sobreingeniería |
 | **Validación** | FluentValidation | Validators en Application, activados automáticamente en el pipeline de ASP.NET |
 | **Mapeo** | AutoMapper (`MappingProfile`) | Reemplaza mapper estático; `IMapper` inyectable y testeable |

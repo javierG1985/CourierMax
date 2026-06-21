@@ -38,7 +38,7 @@ public static class ApplicationServiceExtensions
         services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
         // AutoMapper — registra MappingProfile desde el assembly Application
-        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        services.AddAutoMapper(_ => { }, typeof(MappingProfile));
 
         return services;
     }
