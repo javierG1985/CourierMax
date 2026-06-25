@@ -5,7 +5,6 @@ using Ceiba.CourierMax.Application.Interfaces;
 using Ceiba.CourierMax.Application.Services;
 using Ceiba.CourierMax.Domain.Entities;
 using Ceiba.CourierMax.Domain.Exceptions;
-using Ceiba.CourierMax.Domain.Repositories;
 
 namespace Ceiba.CourierMax.Application.UseCases.Shipments.CreateShipment;
 

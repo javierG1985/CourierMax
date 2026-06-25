@@ -1,6 +1,6 @@
 using Ceiba.CourierMax.Domain.Entities;
 
-namespace Ceiba.CourierMax.Domain.Repositories;
+namespace Ceiba.CourierMax.Application.Interfaces;
 
 public interface IUserRepository
 {

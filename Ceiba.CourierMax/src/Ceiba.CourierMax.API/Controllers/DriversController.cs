@@ -1,6 +1,5 @@
 using Ceiba.CourierMax.Application.Interfaces;
 using Ceiba.CourierMax.Application.Models;
-using Ceiba.CourierMax.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

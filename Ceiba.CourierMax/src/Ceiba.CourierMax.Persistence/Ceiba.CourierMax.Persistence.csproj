@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ceiba.CourierMax.Domain\Ceiba.CourierMax.Domain.csproj" />
+    <ProjectReference Include="..\Ceiba.CourierMax.Application\Ceiba.CourierMax.Application.csproj" />
   </ItemGroup>
 
 </Project>

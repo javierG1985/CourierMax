@@ -1,7 +1,7 @@
 using Ceiba.CourierMax.Domain.Entities;
 using Ceiba.CourierMax.Domain.Enums;
 
-namespace Ceiba.CourierMax.Domain.Repositories;
+namespace Ceiba.CourierMax.Application.Interfaces;
 
 public interface IShipmentRepository
 {

@@ -1,6 +1,5 @@
 using Ceiba.CourierMax.Application.Interfaces;
 using Ceiba.CourierMax.Domain.Entities;
-using Ceiba.CourierMax.Domain.Repositories;
 
 namespace Ceiba.CourierMax.Application.Services;
 

@@ -1,7 +1,6 @@
 using Ceiba.CourierMax.Application.DTOs.Responses;
 using Ceiba.CourierMax.Application.Interfaces;
 using Ceiba.CourierMax.Domain.Enums;
-using Ceiba.CourierMax.Domain.Repositories;
 using Ceiba.CourierMax.Domain.Services;
 
 namespace Ceiba.CourierMax.Application.UseCases.Reports.GetDelayedShipments;

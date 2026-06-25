@@ -1,4 +1,4 @@
-using Ceiba.CourierMax.Domain.Repositories;
+using Ceiba.CourierMax.Application.Interfaces;
 using Ceiba.CourierMax.Persistence.Context;
 using Ceiba.CourierMax.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
