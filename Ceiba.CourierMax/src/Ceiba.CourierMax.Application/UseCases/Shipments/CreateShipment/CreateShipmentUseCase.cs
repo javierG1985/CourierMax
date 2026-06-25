@@ -2,9 +2,9 @@ using AutoMapper;
 using Ceiba.CourierMax.Application.DTOs.Requests;
 using Ceiba.CourierMax.Application.DTOs.Responses;
 using Ceiba.CourierMax.Application.Interfaces;
-using Ceiba.CourierMax.Application.Services;
 using Ceiba.CourierMax.Domain.Entities;
 using Ceiba.CourierMax.Domain.Exceptions;
+using Ceiba.CourierMax.Domain.Services;
 
 namespace Ceiba.CourierMax.Application.UseCases.Shipments.CreateShipment;
 

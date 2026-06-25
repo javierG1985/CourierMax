@@ -1,7 +1,6 @@
 using Ceiba.CourierMax.Domain.Enums;
-using Ceiba.CourierMax.Domain.Services;
 
-namespace Ceiba.CourierMax.Application.Services;
+namespace Ceiba.CourierMax.Domain.Services;
 
 public static class FareCalculatorService
 {

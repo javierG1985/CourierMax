@@ -1,8 +1,8 @@
-using Ceiba.CourierMax.Application.Services;
 using Ceiba.CourierMax.Domain.Enums;
 using Ceiba.CourierMax.Domain.Exceptions;
+using Ceiba.CourierMax.Domain.Services;
 
-namespace Ceiba.CourierMax.Tests.Unit.Application;
+namespace Ceiba.CourierMax.Tests.Unit.Domain;
 
 public class FareCalculatorServiceTests
 {
